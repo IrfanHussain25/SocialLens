@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Aperture, AudioLines, Zap, Users, Library, Activity, Cloud, Database } from "lucide-react";
+import Link from "next/link";
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -39,7 +40,7 @@ export default function Home() {
           <p className="text-lg md:text-2xl text-gray-600 font-sans max-w-2xl mb-12 leading-relaxed">
             From engagement prediction to societal sentiment analysis — understand audience response at every level.
           </p>
-          <button className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-gray-950 text-white rounded-full font-medium text-lg overflow-hidden transition-all shadow-xl hover:shadow-2xl">
+          <Link href="/login" className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-gray-950 text-white rounded-full font-medium text-lg overflow-hidden transition-all shadow-xl hover:shadow-2xl">
             {/* Hover Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#4A54A6] via-[#A8A1E2] to-[#E5B56D] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -48,7 +49,7 @@ export default function Home() {
               Analyze Content
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
-          </button>
+          </Link>
         </motion.div>
       </section>
 

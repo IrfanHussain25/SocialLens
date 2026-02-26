@@ -14,17 +14,24 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: "Social Lens | AI for Content",
-  description: "Deconstructing short-form video DNA for the Indian creator economy.",
+  description: "AI-powered social media content analysis and strategy",
 };
+
+import { AmplifyProvider } from "@/components/auth/AmplifyProvider";
+import { AuthProvider } from "@/components/auth/AuthContext";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body
         className={`${inter.variable} ${playfair.variable} font-sans antialiased text-gray-900 bg-white dark:bg-black dark:text-gray-100 relative`}
       >
-        <Navbar />
-        {children}
+        <AmplifyProvider>
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
+        </AmplifyProvider>
       </body>
     </html>
   );
