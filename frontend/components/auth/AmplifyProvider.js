@@ -2,6 +2,9 @@
 
 import { Amplify } from "aws-amplify";
 import { useEffect } from "react";
+import { defaultStorage } from "aws-amplify/utils";
+
+
 
 // Configure Amplify
 Amplify.configure({
@@ -19,7 +22,9 @@ Amplify.configure({
                 }
             }
         }
-    }
+    },
+}, {
+    ssr: true // Tells Amplify to store tokens in cookies so the Next.js server can read them
 });
 
 export function AmplifyProvider({ children }) {

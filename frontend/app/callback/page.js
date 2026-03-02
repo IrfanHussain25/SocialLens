@@ -15,12 +15,15 @@ export default function CallbackPage() {
         const checkAuthStatus = async () => {
             try {
                 // Just calling getCurrentUser forces Amplify to check for valid tokens
+                console.log("Checking auth status...");
                 const user = await getCurrentUser();
+                console.log("User: ", user);
                 setStatus("Authentication successful! Redirecting...");
 
                 // Brief delay for UX, then redirect
                 setTimeout(() => {
-                    router.push("/dashboard");
+                    const userId = user?.userId || user?.username || 'me';
+                    router.push(`/analyze/${userId}`);
                 }, 1000);
 
             } catch (error) {
