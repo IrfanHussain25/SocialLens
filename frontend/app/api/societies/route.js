@@ -32,41 +32,38 @@ export async function GET(request) {
 
     try {
         const command = new QueryCommand({
-            TableName: 'social-lens-analyses',
+            TableName: 'social-lens-societies',
             KeyConditionExpression: 'userId = :userId',
             ExpressionAttributeValues: {
                 ':userId': userId,
             },
-            // We usually want newest first if there's a sort key configuration that allows it, 
-            // but we might need to sort in memory if the sort key is jobId and not perfectly chronological, 
-            // or if we have a robust GSI setup. Let's assume standard returning and then sort.
         });
 
         const response = await docClient.send(command);
         const items = response.Items || [];
 
         // Sort by createdAt descending
-        items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
         const itemsWithUrls = await Promise.all(items.map(async (item) => {
-            if (item.s3Key) {
+            if (item.s3Key && item.postType !== 'text') {
                 try {
                     const getObjCommand = new GetObjectCommand({
                         Bucket: 'social-lens-intake',
                         Key: item.s3Key,
                     });
-                    item.videoUrl = await getSignedUrl(s3Client, getObjCommand, { expiresIn: 3600 });
+                    item.mediaUrl = await getSignedUrl(s3Client, getObjCommand, { expiresIn: 3600 });
                 } catch (e) {
                     console.error(`Failed to generate signed URL for ${item.s3Key}:`, e);
-                    item.videoUrl = null;
+                    item.mediaUrl = null;
                 }
             }
             return item;
         }));
 
-        return NextResponse.json({ analyses: itemsWithUrls }, { status: 200 });
+        return NextResponse.json({ audits: itemsWithUrls }, { status: 200 });
     } catch (error) {
-        console.error('Error fetching analyses:', error);
+        console.error('Error fetching societies audits:', error);
         return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }

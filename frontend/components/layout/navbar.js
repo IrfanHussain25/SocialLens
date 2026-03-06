@@ -56,17 +56,13 @@ export function Navbar() {
 
                     {/* Center Section: Navigation Links */}
                     <nav className="hidden lg:flex items-center gap-8 text-[12px] font-bold font-sans uppercase tracking-[0.15em] text-gray-800">
-                        <Link href="/analyze" className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
+                        <Link href={isAuthenticated && user ? `/analyze/${user.userId || user.username}` : "/login"} className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
                             Analyze Content <ChevronRight className="w-3 h-3" strokeWidth={3} />
                         </Link>
-                        <Link href="#" className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
-                            SOCIETIES <ChevronRight className="w-3 h-3" strokeWidth={3} />
+                        <Link href={isAuthenticated && user ? `/societies/${user.userId || user.username}` : "/login"} className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
+                            Societies <ChevronRight className="w-3 h-3" strokeWidth={3} />
                         </Link>
-                        {isAuthenticated && user && (
-                            <Link href={`/analyze/${user.userId || user.username}`} className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
-                                DASHBOARD <ChevronRight className="w-3 h-3" strokeWidth={3} />
-                            </Link>
-                        )}
+                        
                     </nav>
 
                     {/* Right Section: Action Buttons */}
@@ -85,12 +81,7 @@ export function Navbar() {
                                 >
                                     <LogOut className="w-4 h-4" />
                                 </button>
-                                <Link
-                                    href={`/analyze/${user.userId || user.username}/analytics`}
-                                    className="hidden sm:flex px-6 py-2.5 rounded-full text-sm font-medium font-sans bg-black hover:bg-gray-800 text-white shadow-xl hover:shadow-2xl transition-all"
-                                >
-                                    New Analysis
-                                </Link>
+                               
                             </div>
                         ) : (
                             <>
@@ -99,11 +90,7 @@ export function Navbar() {
                                         Log In
                                     </CursorAwareButton>
                                 </Link>
-                                <Link href="/analyze">
-                                    <CursorAwareButton variant="dark" className="!px-8 !py-3 !text-sm !font-serif !tracking-wide">
-                                        Experience Social Lens
-                                    </CursorAwareButton>
-                                </Link>
+                                
                             </>
                         )}
                     </div>

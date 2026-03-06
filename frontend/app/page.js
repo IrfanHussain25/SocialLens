@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Aperture, AudioLines, Zap, Users, Library, Heart, Shield, Globe } from "lucide-react";
 import { CursorAwareButton } from "../components/CursorAwareButton";
 import { CTASection, Footer } from "../components/layout/footer";
+import { useAuth } from "@/components/auth/AuthContext";
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -387,6 +388,7 @@ const ParticleEngine = () => {
 
 export default function Home() {
   const footerRevealRef = useRef(null);
+  const { user, isAuthenticated } = useAuth();
   const { scrollYProgress: footerRevealProgress } = useScroll({
     target: footerRevealRef,
     offset: ["start end", "end end"]
@@ -412,7 +414,6 @@ export default function Home() {
 
         {/* SECTION 1: Hero Section */}
         <section className="relative flex flex-col items-center justify-center min-h-screen text-center px-6 pt-32 pb-32 overflow-hidden">
-          <ParticleEngine />
 
           <div className="absolute top-0 inset-x-0 h-[1000px] overflow-hidden pointer-events-none z-0">
             {/* Horizontal Orange/Saffron Band at the VERY top */}
@@ -442,7 +443,7 @@ export default function Home() {
             <p className="text-lg md:text-2xl text-gray-600 font-sans max-w-2xl mb-12 leading-relaxed">
               From engagement prediction to societal sentiment analysis — understand audience response at every level.
             </p>
-            <Link href="/analyze">
+            <Link href={isAuthenticated && user ? `/analyze/${user.userId || user.username}` : "/login"}>
               <CursorAwareButton variant="dark" className="group">
                 <span className="flex items-center gap-3">
                   Analyze Content
