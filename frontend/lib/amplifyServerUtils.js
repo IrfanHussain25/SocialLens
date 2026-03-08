@@ -4,8 +4,8 @@ export const { runWithAmplifyServerContext } = createServerRunner({
     config: {
         Auth: {
             Cognito: {
-                userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID,
-                userPoolClientId: process.env.NEXT_PUBLIC_AWS_CLIENT_ID,
+                userPoolId: process.env.NEXT_PUBLIC_SL_USER_POOL_ID,
+                userPoolClientId: process.env.NEXT_PUBLIC_SL_CLIENT_ID,
             }
         }
     }

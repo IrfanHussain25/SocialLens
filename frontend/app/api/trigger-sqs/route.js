@@ -5,8 +5,8 @@
 // const sqsClient = new SQSClient({
 //     region: "ap-south-1",
 //     credentials: {
-//         accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-//         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+//         accessKeyId: process.env.SL_ACCESS_KEY_ID || "",
+//         secretAccessKey: process.env.SL_SECRET_ACCESS_KEY || "",
 //     },
 // });
 
@@ -24,7 +24,7 @@
 
 //         // Send message to SQS Queue indicating the file is ready in S3
 //         const sqsParams = {
-//             QueueUrl: process.env.SQS_QUEUE_URL,
+//             QueueUrl: process.env.SL_SQS_QUEUE_URL,
 //             MessageBody: JSON.stringify({
 //                 jobId,
 //                 s3Key,
@@ -62,8 +62,8 @@ import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 const sqsClient = new SQSClient({
     region: "ap-south-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+        accessKeyId: process.env.SL_ACCESS_KEY_ID || "",
+        secretAccessKey: process.env.SL_SECRET_ACCESS_KEY || "",
     },
 });
 
@@ -81,7 +81,7 @@ export async function POST(request) {
         }
 
         const sqsParams = {
-            QueueUrl: process.env.SQS_QUEUE_URL,
+            QueueUrl: process.env.SL_SQS_QUEUE_URL,
             MessageBody: JSON.stringify({
                 jobId,
                 s3Key,

@@ -7,8 +7,8 @@
 // const s3Client = new S3Client({
 //     region: 'ap-south-1',
 //     credentials: {
-//         accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-//         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+//         accessKeyId: process.env.SL_ACCESS_KEY_ID || '',
+//         secretAccessKey: process.env.SL_SECRET_ACCESS_KEY || '',
 //     },
 // });
 
@@ -70,8 +70,8 @@ import crypto from 'crypto';
 const s3Client = new S3Client({
     region: 'ap-south-1',
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+        accessKeyId: process.env.SL_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.SL_SECRET_ACCESS_KEY || '',
     },
 });
 
@@ -92,7 +92,7 @@ export async function POST(request) {
         const safeFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
 
         const jobId = crypto.randomUUID();
-        
+
         // 2. Build the exact S3 key using the SAFE filename!
         const s3Key = `${userId}/${feature}/${jobId}-${safeFileName}`;
 

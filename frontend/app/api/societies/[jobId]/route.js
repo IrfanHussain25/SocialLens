@@ -5,20 +5,20 @@ import { S3Client, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const client = new DynamoDBClient({
-    region: process.env.NEXT_PUBLIC_AWS_REGION || "ap-south-1",
+    region: process.env.NEXT_PUBLIC_SL_REGION || "ap-south-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.SL_ACCESS_KEY_ID,
+        secretAccessKey: process.env.SL_SECRET_ACCESS_KEY,
     }
 });
 
 const docClient = DynamoDBDocumentClient.from(client);
 
 const s3Client = new S3Client({
-    region: process.env.NEXT_PUBLIC_AWS_REGION || "ap-south-1",
+    region: process.env.NEXT_PUBLIC_SL_REGION || "ap-south-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.SL_ACCESS_KEY_ID,
+        secretAccessKey: process.env.SL_SECRET_ACCESS_KEY,
     }
 });
 
@@ -125,8 +125,8 @@ export async function PATCH(request, { params }) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
     const resolvedParams = await params;
-    const { jobId } = resolvedParams; 
-    
+    const { jobId } = resolvedParams;
+
     try {
         const body = await request.json();
         const { newTopic } = body;

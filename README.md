@@ -99,7 +99,7 @@ graph TB
 3. Configure Environment Variables:
    Create a `.env.local` in the `frontend` directory:
    ```env
-   NEXT_PUBLIC_AWS_REGION=your-region
+   NEXT_PUBLIC_SL_REGION=your-region
    NEXT_PUBLIC_IDENTITY_POOL_ID=your-id
    ```
 

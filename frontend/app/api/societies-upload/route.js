@@ -6,8 +6,8 @@ import crypto from 'crypto';
 const s3Client = new S3Client({
     region: 'ap-south-1',
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+        accessKeyId: process.env.SL_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.SL_SECRET_ACCESS_KEY || '',
     },
 });
 
