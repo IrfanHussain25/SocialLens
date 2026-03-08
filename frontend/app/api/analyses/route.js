@@ -70,3 +70,50 @@ export async function GET(request) {
         return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }
+
+
+
+
+import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+
+export async function DELETE(request) {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+    const jobId = searchParams.get('jobId');
+    const s3Key = searchParams.get('s3Key');
+
+    if (!userId || !jobId) {
+        return NextResponse.json({ error: 'Missing userId or jobId parameter' }, { status: 400 });
+    }
+
+    try {
+        // 1. Delete from DynamoDB
+        const deleteDbCommand = new DeleteCommand({
+            TableName: 'social-lens-analyses',
+            Key: {
+                userId: userId,
+                jobId: jobId
+            }
+        });
+        await docClient.send(deleteDbCommand);
+
+        // 2. Delete from S3 if s3Key is provided
+        if (s3Key) {
+            try {
+                const deleteS3Command = new DeleteObjectCommand({
+                    Bucket: 'social-lens-intake',
+                    Key: s3Key,
+                });
+                await s3Client.send(deleteS3Command);
+            } catch (s3Error) {
+                console.error(`Failed to delete S3 object ${s3Key}:`, s3Error);
+            }
+        }
+
+        return NextResponse.json({ success: true, message: 'Analysis deleted successfully' }, { status: 200 });
+    } catch (error) {
+        console.error('Error deleting analysis:', error);
+        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
+    }
+}

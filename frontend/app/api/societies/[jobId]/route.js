@@ -52,15 +52,17 @@ export async function GET(request, { params }) {
             return NextResponse.json({ error: 'Audit not found' }, { status: 404 });
         }
 
-        if (item.s3Key && item.postType !== 'text') {
+        const activeS3Key = item.s3Key || item.textContent;
+
+        if (activeS3Key && item.postType !== 'text') {
             try {
                 const getObjCommand = new GetObjectCommand({
                     Bucket: 'social-lens-intake',
-                    Key: item.s3Key,
+                    Key: activeS3Key,
                 });
                 item.mediaUrl = await getSignedUrl(s3Client, getObjCommand, { expiresIn: 3600 });
             } catch (e) {
-                console.error(`Failed to generate signed URL for ${item.s3Key}:`, e);
+                console.error(`Failed to generate signed URL for ${activeS3Key}:`, e);
                 item.mediaUrl = null;
             }
         }
@@ -95,12 +97,13 @@ export async function DELETE(request, { params }) {
         if (!item) return NextResponse.json({ error: 'Audit not found' }, { status: 404 });
 
         // 2. If it's a photo/video, delete it from the S3 vault permanently
-        if (item.s3Key && item.postType !== 'text') {
+        const activeS3Key = item.s3Key || item.textContent;
+        if (activeS3Key && item.postType !== 'text') {
             await s3Client.send(new DeleteObjectCommand({
                 Bucket: 'social-lens-intake',
-                Key: item.s3Key
+                Key: activeS3Key
             }));
-            console.log(`Deleted S3 Object: ${item.s3Key}`);
+            console.log(`Deleted S3 Object: ${activeS3Key}`);
         }
 
         // 3. Delete the record from DynamoDB

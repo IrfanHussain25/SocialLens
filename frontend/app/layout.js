@@ -13,12 +13,14 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Social Lens | AI for Content",
+  title: "social lens",
   description: "AI-powered social media content analysis and strategy",
 };
 
 import { AmplifyProvider } from "@/components/auth/AmplifyProvider";
 import { AuthProvider } from "@/components/auth/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RootLayout({ children }) {
   return (
@@ -29,6 +31,7 @@ export default function RootLayout({ children }) {
         <AmplifyProvider>
           <AuthProvider>
             <Navbar />
+            <ToastContainer position="bottom-right" theme="light" />
             {children}
           </AuthProvider>
         </AmplifyProvider>

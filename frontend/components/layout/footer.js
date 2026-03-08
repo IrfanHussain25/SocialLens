@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { motion, useTransform } from "framer-motion";
 import { CursorAwareButton } from "../CursorAwareButton";
+import { useAuth } from "@/components/auth/AuthContext";
 
 export function CTASection() {
+    const { isAuthenticated, user } = useAuth();
     return (
         <section className="px-6 py-40 bg-white">
             <div className="max-w-7xl mx-auto">
@@ -44,7 +46,8 @@ export function CTASection() {
                             Build the future of India's AI <br/> with Social Lens.
                         </h2>
                         
-                        <button className="px-10 py-4 rounded-full bg-white/20 backdrop-blur-2xl border border-white/30 text-white font-sans font-semibold text-lg hover:bg-white/30 transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 group">
+                        <Link href={isAuthenticated && user ? `/analyze/${user.userId || user.username}` : "/login"}>
+                        <button className="px-10 py-4 rounded-full bg-white/20 backdrop-blur-2xl border border-white/30 text-white font-sans font-semibold text-lg hover:bg-white/30 transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 group cursor-pointer">
                             <span className="flex items-center gap-2">
                                 Get Started Now
                                 <motion.span 
@@ -56,6 +59,7 @@ export function CTASection() {
                                 </motion.span>
                             </span>
                         </button>
+                        </Link>
                     </div>
 
                     {/* Bottom Arched Glow */}
@@ -65,79 +69,41 @@ export function CTASection() {
         </section>
     );
 }
-
 export function Footer({ scrollProgress }) {
     // Transform scroll progress into expansion values
     const glowScale = useTransform(scrollProgress, [0, 1], [0.8, 1.2]);
     const glowOpacity = useTransform(scrollProgress, [0, 1], [0, 0.4]);
 
-    const sections = [
-        {
-            title: "PRODUCTS",
-            links: ["Content Analyzer", "Demographic Insights", "Trend Tracker", "API Access"]
-        },
-        {
-            title: "API",
-            links: ["Documentation", "System Status", "Pricing", "Support"]
-        },
-        {
-            title: "COMPANY",
-            links: ["About Us", "Careers", "Contact", "Privacy Policy"]
-        },
-        {
-            title: "SOCIALS",
-            links: ["LinkedIn", "X (Twitter)", "YouTube", "Discord"]
-        }
-    ];
-
     return (
-        <footer className="fixed bottom-0 left-0 w-full h-[600px] z-0 bg-white pt-20 pb-32 overflow-hidden">
+        <footer className="fixed bottom-0 left-0 w-full h-[350px] z-0 bg-white pt-12 pb-16 overflow-hidden">
             {/* Bottom Page Gradient Glow - Animated Expansion */}
             <motion.div 
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[300px] pointer-events-none transform-gpu backface-visibility-hidden"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[200px] pointer-events-none transform-gpu backface-visibility-hidden"
                 style={{ 
                     scale: glowScale,
                     opacity: glowOpacity
                 }}
             >
-                <div className="absolute bottom-[-150px] left-0 w-full h-[300px] blur-[120px]" 
+                <div className="absolute bottom-[-100px] left-0 w-full h-[200px] blur-[100px]" 
                     style={{ background: 'linear-gradient(90deg, #4F46E5 0%, #F59E0B 50%, #10B981 100%)' }} />
             </motion.div>
 
-            <div className="max-w-7xl mx-auto px-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-20">
-                    {/* Logo & Brand Section */}
-                    <div className="lg:col-span-2">
-                        <Link href="/" className="text-3xl font-bold tracking-tight text-gray-950 mb-4 block">
-                            Social Lens
-                        </Link>
-                        <p className="text-gray-500 max-w-xs text-sm leading-relaxed mb-8">
-                            Empowering Indian creators with multimodal AI insights. Bharat-First content analysis at scale.
-                        </p>
-                        <div className="flex gap-4">
-                            <div className="w-12 h-8 border border-gray-200 rounded flex items-center justify-center grayscale opacity-50 font-bold text-[10px]">ISO:27001</div>
-                            <div className="w-12 h-8 border border-gray-200 rounded flex items-center justify-center grayscale opacity-50 font-bold text-[10px]">SOC 2 TYPE 1</div>
-                        </div>
-                    </div>
-
-                    {/* Links Sections */}
-                    {sections.map((section) => (
-                        <div key={section.title}>
-                            <h4 className="text-[11px] font-bold text-gray-400 tracking-[0.2em] mb-6">{section.title}</h4>
-                            <ul className="space-y-4">
-                                {section.links.map((link) => (
-                                    <li key={link}>
-                                        <Link href="#" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">
-                                            {link}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
+            <div className="max-w-7xl mx-auto px-8 relative z-10 flex flex-col items-center text-center">
+                {/* Logo & Brand Section */}
+                <div className="mb-8 flex flex-col items-center">
+                    <Link href="/" className="mb-4 block">
+                        <img 
+                            src="/Social_lens _logo.png" 
+                            alt="Social Lens" 
+                            className="h-12 w-auto" 
+                        />
+                    </Link>
+                    <p className="text-gray-500 max-w-sm text-sm leading-relaxed">
+                        Empowering Indian creators with multimodal AI insights.
+                    </p>
                 </div>
 
-                <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-gray-400 font-medium">
+                <div className="w-full pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-400 font-medium">
                     <p>© 2026 Social Lens. All rights reserved.</p>
                     <p>Designed with ❤️ for India.</p>
                 </div>

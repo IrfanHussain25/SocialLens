@@ -444,7 +444,7 @@ export default function Home() {
               From engagement prediction to societal sentiment analysis — understand audience response at every level.
             </p>
             <Link href={isAuthenticated && user ? `/analyze/${user.userId || user.username}` : "/login"}>
-              <CursorAwareButton variant="dark" className="group">
+              <CursorAwareButton variant="dark" className="group cursor-pointer">
                 <span className="flex items-center gap-3">
                   Analyze Content
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
@@ -488,7 +488,6 @@ export default function Home() {
                     whileHover={{ y: -5 }}
                     className="p-8 rounded-[2.5rem] bg-indigo-50/30 border border-indigo-100/50 backdrop-blur-sm relative group"
                   >
-                    <div className="absolute top-4 right-6 text-[9px] font-bold text-indigo-400 uppercase tracking-widest font-mono">Status: Deployed</div>
                     <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6 border border-indigo-50">
                       <Globe className="w-6 h-6 text-indigo-500" />
                     </div>
@@ -505,16 +504,12 @@ export default function Home() {
                     whileHover={{ y: -5 }}
                     className="p-8 rounded-[2.5rem] bg-gray-50/50 border border-gray-100 backdrop-blur-sm relative group"
                   >
-                    <div className="absolute top-4 right-6 text-[9px] font-bold text-gray-400 uppercase tracking-widest font-mono">Shield: E2EE</div>
                     <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6 border border-gray-100">
                       <Shield className="w-6 h-6 text-indigo-500" />
                     </div>
                     <h4 className="text-xl font-bold text-gray-950 mb-3">Creator Privacy</h4>
                     <p className="text-sm text-gray-500 leading-relaxed mb-4">End-to-end encryption for all your analyzed media assets.</p>
-                    <div className="flex gap-2">
-                      <span className="px-2 py-1 rounded bg-gray-100 text-[8px] font-bold text-gray-500 uppercase">ISO:27001</span>
-                      <span className="px-2 py-1 rounded bg-gray-100 text-[8px] font-bold text-gray-500 uppercase">SOC2</span>
-                    </div>
+                    
                   </motion.div>
                 </div>
               </div>
@@ -567,7 +562,7 @@ export default function Home() {
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Growth</span>
                     </div>
                     <p className="text-4xl font-bold text-gray-950 tracking-tighter mb-1">1M+</p>
-                    <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none">Creators Served</p>
+                    <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none">Creators To Be Benefitted</p>
                   </motion.div>
 
                   {/* Second Stat Badge */}
@@ -576,7 +571,7 @@ export default function Home() {
                     whileInView={{ x: 0, opacity: 1 }}
                     className="absolute -top-6 -right-6 bg-indigo-600 p-6 rounded-[2rem] shadow-2xl z-30 min-w-[140px]"
                   >
-                    <p className="text-lg font-bold text-white/70 uppercase tracking-widest mb-1 text-center">Nodes</p>
+                    <p className="text-lg font-bold text-white/70 uppercase tracking-widest mb-1 text-center">Languages</p>
                     <p className="text-3xl font-bold text-white tracking-tighter text-center">22+</p>
                   </motion.div>
                 </div>
@@ -640,13 +635,6 @@ export default function Home() {
                     >
                       <Zap className="w-10 h-10 text-white" />
                     </motion.div>
-                    <div className="flex flex-col items-end gap-2">
-                      <div className="flex gap-2">
-                        <span className="px-3 py-1.5 rounded-full bg-indigo-50 text-[10px] font-bold text-indigo-600 border border-indigo-100 uppercase tracking-widest shadow-sm">Live Analysis</span>
-                        <span className="px-3 py-1.5 rounded-full bg-white text-[10px] font-bold text-gray-400 border border-gray-100 uppercase tracking-widest shadow-sm">ID: SL-GZ-24</span>
-                      </div>
-                      <div className="text-[10px] font-mono text-indigo-400 font-bold animate-pulse tracking-tight">DATA FEED: ACTIVE</div>
-                    </div>
                   </div>
 
                   <h3 className="text-5xl font-serif font-medium text-gray-950 mb-3 tracking-tight">Gen Z</h3>
@@ -691,7 +679,6 @@ export default function Home() {
                     >
                       <Users className="w-8 h-8 text-white" />
                     </motion.div>
-                    <span className="px-3 py-1.5 rounded-full bg-orange-50 text-[10px] font-bold text-orange-600 border border-orange-100 uppercase tracking-widest">Affinity: 88.2%</span>
                   </div>
 
                   <h3 className="text-4xl font-serif font-medium text-gray-950 mb-2">Millennials</h3>
@@ -763,7 +750,7 @@ export default function Home() {
         <CTASection />
       </div>
 
-      <div ref={footerRevealRef} className="h-[600px] pointer-events-none" />
+      <div ref={footerRevealRef} className="h-[350px] pointer-events-none" />
       <Footer scrollProgress={footerRevealProgress} />
     </main>
   );

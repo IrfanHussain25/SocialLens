@@ -46,15 +46,17 @@ export async function GET(request) {
         items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
         const itemsWithUrls = await Promise.all(items.map(async (item) => {
-            if (item.s3Key && item.postType !== 'text') {
+            const activeS3Key = item.s3Key || item.textContent;
+            
+            if (activeS3Key && item.postType !== 'text') {
                 try {
                     const getObjCommand = new GetObjectCommand({
                         Bucket: 'social-lens-intake',
-                        Key: item.s3Key,
+                        Key: activeS3Key,
                     });
                     item.mediaUrl = await getSignedUrl(s3Client, getObjCommand, { expiresIn: 3600 });
                 } catch (e) {
-                    console.error(`Failed to generate signed URL for ${item.s3Key}:`, e);
+                    console.error(`Failed to generate signed URL for ${activeS3Key}:`, e);
                     item.mediaUrl = null;
                 }
             }
