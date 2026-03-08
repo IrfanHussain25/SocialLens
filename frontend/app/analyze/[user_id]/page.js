@@ -143,26 +143,8 @@ export default function AnalyzeDashboard({ params }) {
 
         if (isAnalyzing) return;
         if (uploadType === "file" && !file) return;
-        
-        if (uploadType === "instagram") {
-            const url = instagramUrl.trim();
-            if (!url) return;
-            const instagramRegex = /^(https?:\/\/)?(www\.)?instagram\.com\/.+$/;
-            if (!instagramRegex.test(url)) {
-                toast.error("Please enter a valid Instagram URL");
-                return;
-            }
-        }
-
-        if (uploadType === "youtube") {
-            const url = youtubeUrl.trim();
-            if (!url) return;
-            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-            if (!youtubeRegex.test(url)) {
-                toast.error("Please enter a valid YouTube URL");
-                return;
-            }
-        }
+        if (uploadType === "instagram" && !instagramUrl.trim()) return;
+        if (uploadType === "youtube" && !youtubeUrl.trim()) return;
 
         setIsAnalyzing(true);
         setStatusMessage("");
