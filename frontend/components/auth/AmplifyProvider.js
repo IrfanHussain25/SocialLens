@@ -4,9 +4,6 @@ import { Amplify } from "aws-amplify";
 import { useEffect } from "react";
 import { defaultStorage } from "aws-amplify/utils";
 
-
-
-// Configure Amplify
 Amplify.configure({
     Auth: {
         Cognito: {
@@ -24,14 +21,10 @@ Amplify.configure({
         }
     },
 }, {
-    ssr: true // Tells Amplify to store tokens in cookies so the Next.js server can read them
+    ssr: true
 });
 
 export function AmplifyProvider({ children }) {
-    // We only need to render the children. The configuration happens outside the component
-    // so it's initialized once when the module loads on the client side.
-
-    // An optional useEffect to log successful initialization in dev mode
     useEffect(() => {
         console.log("Amplify configured successfully on client");
     }, []);

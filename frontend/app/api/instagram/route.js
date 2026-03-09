@@ -18,9 +18,8 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Trigger your scraper lambda
         const command = new InvokeCommand({
-            FunctionName: 'instagram-video-downloader', // <-- Update this to the actual name of your Scraper Lambda
+            FunctionName: 'instagram-video-downloader',
             Payload: JSON.stringify({ url, userId, feature, jobId })
         });
 

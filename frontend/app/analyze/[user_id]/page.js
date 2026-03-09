@@ -370,7 +370,6 @@ export default function AnalyzeDashboard({ params }) {
 
     return (
         <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-gray-50 font-sans relative overflow-x-hidden">
-            {/* Background Gradients */}
             <div className="fixed top-0 inset-x-0 h-[1000px] overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-0 left-0 right-0 h-[400px] opacity-40 blur-[80px]"
                     style={{ background: 'linear-gradient(to bottom, #FF9933 0%, rgba(255,153,51,0) 100%)' }}></div>
@@ -383,7 +382,6 @@ export default function AnalyzeDashboard({ params }) {
             <div className="relative z-10 pt-32 px-6 pb-6 lg:pb-12 max-w-[1400px] mx-auto h-full flex flex-col">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch relative flex-1 min-h-0">
 
-                    {/* LEFT COLUMN: Analyzed Videos */}
                     <div className="lg:col-span-7 xl:col-span-7 flex flex-col min-h-0">
                         <div className="mb-10 shrink-0">
                             <h2 className="text-4xl md:text-5xl font-serif font-medium text-gray-950 mb-3 tracking-tight">
@@ -392,7 +390,6 @@ export default function AnalyzeDashboard({ params }) {
 
                         </div>
 
-                        {/* Video Grid */}
                         <div className="overflow-y-auto pr-4 pb-4 custom-scrollbar flex-1 min-h-0">
                             {isLoadingVideos ? (
                                 <div className="flex flex-col items-center justify-center p-32 h-full">
@@ -401,7 +398,6 @@ export default function AnalyzeDashboard({ params }) {
                                 </div>
                             ) : videos.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center p-20 h-full relative group bg-white/30 backdrop-blur-2xl rounded-[3rem] border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.05)]">
-                                    {/* Animated Radar Pulse */}
                                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                         {[...Array(3)].map((_, i) => (
                                             <motion.div
@@ -436,14 +432,11 @@ export default function AnalyzeDashboard({ params }) {
                                                     transition={{ delay: idx * 0.1, duration: 0.4, ease: "easeOut" }}
                                                     className={`group relative backdrop-blur-2xl rounded-[2rem] p-4 border shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-500 overflow-hidden ${isGenerating ? 'bg-white/20 border-indigo-200/50 cursor-default' : 'bg-white/40 border-white/60 hover:shadow-[0_20px_40px_rgba(79,70,229,0.15)] hover:bg-white/50 cursor-pointer'}`}
                                                 >
-                                                    {/* Inner Glass Shine */}
                                                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
                                                     <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-white/10 pointer-events-none rounded-[2rem]" />
 
-                                                    {/* Gradient Border on Hover */}
                                                     {!isGenerating && <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />}
 
-                                                    {/* Thumbnail Area */}
                                                     <div className={`relative aspect-video rounded-2xl overflow-hidden mb-5 relative z-10 border shadow-inner ${isGenerating ? 'bg-indigo-50/50 border-indigo-200/50' : 'bg-gray-100/50 border-white/50'}`}>
                                                         {isGenerating ? (
                                                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-sm">
@@ -480,7 +473,6 @@ export default function AnalyzeDashboard({ params }) {
                                                                 )}
                                                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent opacity-60" />
 
-                                                                {/* Play Overlay */}
                                                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                                                     <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-500">
                                                                         <Play className="w-6 h-6 text-white fill-white ml-1 shadow-sm" />
@@ -493,7 +485,6 @@ export default function AnalyzeDashboard({ params }) {
                                                             {video.status || "COMPLETED"}
                                                         </div>
 
-                                                        {/* Delete Button */}
                                                         {!isGenerating && (
                                                             <button
                                                                 onClick={(e) => handleDelete(e, video)}
@@ -505,7 +496,6 @@ export default function AnalyzeDashboard({ params }) {
                                                         )}
                                                     </div>
 
-                                                    {/* Info Area */}
                                                     <div className="space-y-4 relative z-10 px-1">
                                                         <div className="flex justify-between items-start gap-4">
                                                             <h3 className="font-serif font-medium text-lg leading-snug text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:to-indigo-400 transition-all line-clamp-2 basis-3/4">
@@ -519,7 +509,6 @@ export default function AnalyzeDashboard({ params }) {
                                                                 </div>
                                                             ) : (
                                                                 <div className={`flex flex-col items-center justify-center px-4 py-2 rounded-2xl border bg-white/20 backdrop-blur-3xl basis-1/4 shrink-0 transition-all duration-500 ${(video.hook_score || 0) > 80 ? 'border-emerald-300/50 shadow-[0_0_20px_rgba(16,185,129,0.2)] group-hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:border-emerald-400/80' : 'border-orange-300/50 shadow-[0_0_20px_rgba(249,115,22,0.2)] group-hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] group-hover:border-orange-400/80'}`}>
-                                                                    {/* Inner Glass Glow */}
                                                                     <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent rounded-2xl pointer-events-none" />
                                                                     <div className="relative flex items-center gap-1 mb-0.5">
                                                                         <TrendingUp className={`w-3.5 h-3.5 ${(video.hook_score || 0) > 80 ? 'text-emerald-500' : 'text-orange-500'}`} />
@@ -549,13 +538,10 @@ export default function AnalyzeDashboard({ params }) {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: Upload Zone */}
                     <div className="lg:col-span-5 xl:col-span-5 pb-10 lg:pb-0 font-sans mt-0 flex flex-col h-full justify-center relative z-20">
                         <div className="relative bg-white/40 backdrop-blur-3xl rounded-[3rem] p-8 py-10 border border-white/60 shadow-[0_20px_60px_rgba(0,0,0,0.08)] h-fit max-w-lg mx-auto w-full group overflow-hidden">
-                            {/* Inner Glass Highlights */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-transparent pointer-events-none" />
                             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-70 pointer-events-none" />
-                            {/* Animated Background flairs */}
                             <motion.div
                                 animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                                 className="absolute -top-32 -right-32 w-80 h-80 bg-indigo-400/10 rounded-full blur-[80px] pointer-events-none"
@@ -580,7 +566,6 @@ export default function AnalyzeDashboard({ params }) {
                                 <p className="text-gray-500 text-sm font-medium">Upload a video or import a reel/short to unpack its cultural DNA and engagement metrics.</p>
                             </div>
 
-                            {/* Tabs Toggle with Framer Motion Sliding Pill */}
                             <div className="relative z-10 flex p-1.5 bg-gray-100/60 backdrop-blur-xl rounded-[1.25rem] mb-8 border border-white/40 shadow-inner w-full">
                                 {["file", "instagram", "youtube"].map((type) => {
                                     const isActive = uploadType === type;
@@ -597,7 +582,6 @@ export default function AnalyzeDashboard({ params }) {
                                             }}
                                             className={`relative w-1/3 h-[44px] flex-none flex flex-row items-center justify-center gap-1.5 px-1 rounded-xl text-[14px] font-medium transition-colors duration-300 disabled:opacity-50 z-10 ${isActive ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
                                         >
-                                            {/* Sliding Active Background Pill */}
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="uploadTabIndicator"
@@ -713,7 +697,6 @@ export default function AnalyzeDashboard({ params }) {
                                         ${(!file && !isDragging) && 'border border-dashed'}
                                     `}
                                 >
-                                    {/* Inner Gloss */}
                                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
 
                                     {file && !isAnalyzing && !isDragging && (
@@ -773,7 +756,6 @@ export default function AnalyzeDashboard({ params }) {
                                             <UploadCloud className="w-10 h-10 group-hover/dropzone:scale-110 transition-transform duration-300" />
                                         )}
 
-                                        {/* Inner icon gloss */}
                                         {file && !isAnalyzing && <div className="absolute inset-x-0 top-0 h-px bg-white/60 rounded-t-3xl" />}
                                     </motion.div>
 
@@ -843,10 +825,8 @@ export default function AnalyzeDashboard({ params }) {
                 </div>
             </div>
 
-            {/* Custom Glassmorphic Delete Confirmation Modal */}
             {videoToDelete && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    {/* Dark Blurry Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -855,14 +835,12 @@ export default function AnalyzeDashboard({ params }) {
                         onClick={() => !isDeleting && setVideoToDelete(null)}
                     />
 
-                    {/* Modal Box */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="relative w-full max-w-sm bg-white/70 backdrop-blur-2xl rounded-[2rem] p-6 border border-white/80 shadow-[0_20px_60px_rgba(0,0,0,0.1),inset_0_0_20px_rgba(255,255,255,0.8)] overflow-hidden"
                     >
-                        {/* Red Glass Flare inside modal */}
                         <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-400/20 rounded-full blur-[40px] pointer-events-none" />
 
                         <div className="relative z-10 flex flex-col items-center text-center">

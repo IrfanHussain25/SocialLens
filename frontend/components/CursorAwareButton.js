@@ -2,13 +2,9 @@
 
 import React, { useRef, useState } from "react";
 
-/**
- * A reusable button component that tracks cursor movement to create a 
- * dynamic radial gradient (glow) effect.
- */
 export function CursorAwareButton({
     children,
-    variant = 'light', // 'light' or 'dark'
+    variant = 'light',
     className = '',
     onClick,
     ...props
@@ -62,7 +58,6 @@ export function CursorAwareButton({
             style={style}
             {...props}
         >
-            {/* Background Glow Layer */}
             <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                 style={{
@@ -70,7 +65,6 @@ export function CursorAwareButton({
                 }}
             />
 
-            {/* Subtle Idle Glow Layer */}
             <div
                 className="absolute inset-0 opacity-100 pointer-events-none"
                 style={{

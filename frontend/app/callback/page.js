@@ -10,17 +10,13 @@ export default function CallbackPage() {
     const [status, setStatus] = useState("Authenticating...");
 
     useEffect(() => {
-        // Amplify automatically handles the token exchange in the background when it sees the code in the URL.
-        // We just need to wait for it to finish and then verify the user session exists.
         const checkAuthStatus = async () => {
             try {
-                // Just calling getCurrentUser forces Amplify to check for valid tokens
                 console.log("Checking auth status...");
                 const user = await getCurrentUser();
                 console.log("User: ", user);
                 setStatus("Authentication successful! Redirecting...");
 
-                // Brief delay for UX, then redirect
                 setTimeout(() => {
                     const userId = user?.userId || user?.username || 'me';
                     router.push(`/analyze/${userId}`);
@@ -28,7 +24,6 @@ export default function CallbackPage() {
 
             } catch (error) {
                 console.error("Callback authentication error:", error);
-                // If we fail to get the user, they aren't logged in properly or token exchange failed.
                 setStatus("Authentication failed. Redirecting to login...");
                 setTimeout(() => {
                     router.push("/login?error=auth_failed");

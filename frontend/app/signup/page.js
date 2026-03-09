@@ -36,7 +36,7 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [verificationCode, setVerificationCode] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [authStep, setAuthStep] = useState("SIGN_UP"); // SIGN_UP | CONFIRM_SIGN_UP
+    const [authStep, setAuthStep] = useState("SIGN_UP");
     const [showPassword, setShowPassword] = useState(false);
     const [fieldErrors, setFieldErrors] = useState({});
 
@@ -53,7 +53,7 @@ export default function SignUp() {
         } else if (authStep === 'CONFIRM_SIGN_UP') {
             setFieldErrors({ verificationCode: msg });
         } else {
-            setFieldErrors({ email: msg }); // Fallback
+            setFieldErrors({ email: msg });
         }
     };
 
@@ -74,7 +74,6 @@ export default function SignUp() {
             });
 
             if (isSignUpComplete) {
-                // Technically rare to complete immediately without email verification in standard pools
                 try {
                     const { userId, username } = await getCurrentUser();
                     router.push(`/analyze/${userId || username || email || "me"}`);
@@ -104,7 +103,6 @@ export default function SignUp() {
             });
 
             if (isSignUpComplete) {
-                // Registration is fully complete. Auto sign-in and direct to dashboard.
                 await signIn({
                     username: email,
                     password
@@ -123,7 +121,6 @@ export default function SignUp() {
     return (
         <main className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100 selection:text-indigo-900 overflow-hidden font-sans relative flex items-center justify-center">
 
-            {/* Exact Sarvam replica background gradient from Hero Section */}
             <div className="absolute top-0 inset-x-0 h-[800px] overflow-hidden pointer-events-none flex justify-center z-0">
                 <div className="absolute top-[-10%] w-[150vw] max-w-[2500px] h-[800px] opacity-80 blur-[60px]" style={{ background: 'radial-gradient(50% 100% at 50% 0%, #D4C3FF 0%, rgba(212,195,255,0) 100%)' }}></div>
                 <div className="absolute top-[-5%] w-[100vw] max-w-[1500px] h-[500px] opacity-90 blur-[80px]" style={{ background: 'radial-gradient(50% 100% at 50% 0%, #FFB472 0%, rgba(255,180,114,0) 100%)' }}></div>

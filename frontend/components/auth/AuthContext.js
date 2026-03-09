@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
 
             setUser({
                 ...currentUser,
-                ...attributes, // Adds email, name, etc.
+                ...attributes,
             });
         } catch (error) {
             setUser(null);
@@ -31,10 +31,8 @@ export function AuthProvider({ children }) {
     };
 
     useEffect(() => {
-        // Initial check on mount
         checkUser();
 
-        // Listen for auth events from Amplify (like login/logout anywhere in the app)
         const unsubscribe = Hub.listen("auth", ({ payload }) => {
             switch (payload.event) {
                 case "signedIn":

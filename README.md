@@ -141,4 +141,4 @@ graph TB
 ---
 
 ## 🏆 Hackathon
-Built for the **AI4Bharat Hackathon**. SocialLens is uniquely optimized for Indian cultural nuances, Hinglish communication, and the diverse "Bharat" content ecosystem.
+Built for the **AI For Bharat Hackathon**. SocialLens is uniquely optimized for Indian cultural nuances, Hinglish communication, and the diverse "Bharat" content ecosystem.

@@ -23,13 +23,10 @@ export async function POST(request) {
             );
         }
 
-        // Generate a UUID for jobId
         const jobId = crypto.randomUUID();
 
-        // Strip special characters from fileName
         const safeFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
 
-        // Build S3 key to the specific isolated folder structure
         const s3Key = `${userId}/societies/${jobId}-${safeFileName}`;
 
         const command = new PutObjectCommand({

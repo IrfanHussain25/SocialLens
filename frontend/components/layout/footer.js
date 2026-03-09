@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, useTransform } from "framer-motion";
-import { CursorAwareButton } from "../CursorAwareButton";
 import { useAuth } from "@/components/auth/AuthContext";
 
 export function CTASection() {
@@ -12,7 +11,6 @@ export function CTASection() {
             <div className="max-w-7xl mx-auto">
                 <div className="relative overflow-hidden rounded-[3.5rem] bg-gradient-to-b from-[#0F172A] via-[#1E293B] to-[#C7D2FE] border border-white/5 min-h-[600px] flex flex-col items-center justify-center text-center p-12 group shadow-2xl">
                     
-                    {/* The Radiating Globe Pattern */}
                     <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden translate-y-1/2">
                         {[...Array(6)].map((_, i) => (
                             <div 
@@ -27,10 +25,8 @@ export function CTASection() {
                         ))}
                     </div>
 
-                    {/* Top Glow Overlay */}
                     <div className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
 
-                    {/* Content */}
                     <div className="relative z-10 flex flex-col items-center">
                         <motion.div 
                             initial={{ scale: 0.9, opacity: 0 }}
@@ -62,7 +58,6 @@ export function CTASection() {
                         </Link>
                     </div>
 
-                    {/* Bottom Arched Glow */}
                     <div className="absolute bottom-0 inset-x-0 h-32 bg-white/20 blur-[60px] translate-y-1/2 rounded-full pointer-events-none" />
                 </div>
             </div>
@@ -70,13 +65,11 @@ export function CTASection() {
     );
 }
 export function Footer({ scrollProgress }) {
-    // Transform scroll progress into expansion values
     const glowScale = useTransform(scrollProgress, [0, 1], [0.8, 1.2]);
     const glowOpacity = useTransform(scrollProgress, [0, 1], [0, 0.4]);
 
     return (
         <footer className="fixed bottom-0 left-0 w-full h-[350px] z-0 bg-white pt-12 pb-16 overflow-hidden">
-            {/* Bottom Page Gradient Glow - Animated Expansion */}
             <motion.div 
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[200px] pointer-events-none transform-gpu backface-visibility-hidden"
                 style={{ 
@@ -89,7 +82,6 @@ export function Footer({ scrollProgress }) {
             </motion.div>
 
             <div className="max-w-7xl mx-auto px-8 relative z-10 flex flex-col items-center text-center">
-                {/* Logo & Brand Section */}
                 <div className="mb-8 flex flex-col items-center">
                     <Link href="/" className="mb-4 block">
                         <img 

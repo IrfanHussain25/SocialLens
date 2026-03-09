@@ -18,7 +18,6 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Missing or invalid required fields' }, { status: 400 });
         }
 
-        // Simulate the SQS event structure the Lambda expects
         const sqsSimulatedEvent = {
             Records: [
                 {
@@ -34,13 +33,11 @@ export async function POST(request) {
 
         const command = new InvokeCommand({
             FunctionName: 'youtube-video-analyzer',
-            InvocationType: 'Event', // Asynchronous execution so the Next.js API doesn't timeout
+            InvocationType: 'Event',
             Payload: JSON.stringify(sqsSimulatedEvent)
         });
 
         await lambdaClient.send(command);
-
-        // Since it's Event invocation, we just assume it started processing
         return NextResponse.json({
             success: true,
             jobId,

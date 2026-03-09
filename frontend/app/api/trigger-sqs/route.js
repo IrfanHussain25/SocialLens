@@ -70,7 +70,6 @@ const sqsClient = new SQSClient({
 export async function POST(request) {
     try {
         const body = await request.json();
-        // 1. Extract userId and feature alongside the original data
         const { jobId, s3Key, userId, feature } = body;
 
         if (!jobId || !s3Key || !userId || !feature) {
@@ -85,8 +84,8 @@ export async function POST(request) {
             MessageBody: JSON.stringify({
                 jobId,
                 s3Key,
-                userId,  // Send userId to Lambda
-                feature  // Send feature to Lambda
+                userId,  
+                feature  
             }),
         };
 

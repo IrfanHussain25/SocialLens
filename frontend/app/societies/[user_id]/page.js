@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -22,7 +21,6 @@ export default function SocietiesDashboard({ params }) {
     const resolvedParams = use(params);
     const userIdFromParams = resolvedParams.user_id;
 
-    // Right Column States
     const [activeTab, setActiveTab] = useState("Text");
     const [textContent, setTextContent] = useState("");
     const [file, setFile] = useState(null);
@@ -33,7 +31,6 @@ export default function SocietiesDashboard({ params }) {
     const [posts, setPosts] = useState([]);
     const [isLoadingPosts, setIsLoadingPosts] = useState(true);
 
-    // Edit specific states
     const [editingTopicId, setEditingTopicId] = useState(null);
     const [editTopicValue, setEditTopicValue] = useState("");
 
@@ -60,7 +57,6 @@ export default function SocietiesDashboard({ params }) {
         fetchPosts();
     }, [userIdFromParams]);
 
-    // Active Polling: Start polling 30 seconds after upload, then every 10 seconds.
     useEffect(() => {
         const hasGeneratingAudits = posts.some(p => p.status === 'GENERATING' || p.isOptimistic);
         if (!hasGeneratingAudits || !userIdFromParams) return;
@@ -78,7 +74,6 @@ export default function SocietiesDashboard({ params }) {
                         const fetchedMap = new Map(data.audits.map(v => [v.jobId || v.id, v]));
                         const optimisticToKeep = prev.filter(v => v.isOptimistic && !fetchedMap.has(v.jobId || v.id));
                         const combined = [...optimisticToKeep, ...data.audits];
-                        // Sort by date newest first
                         combined.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || b.date));
                         return combined;
                     });
@@ -88,7 +83,6 @@ export default function SocietiesDashboard({ params }) {
             }
         };
 
-        // Start polling after 5 seconds, then every 5 seconds.
         timeoutId = setTimeout(() => {
             pollAudits();
             intervalId = setInterval(pollAudits, 5000);
@@ -107,7 +101,6 @@ export default function SocietiesDashboard({ params }) {
         setIsDragging(false);
     };
 
-    // Card Action Handlers
     const handleDeleteClick = (e, audit) => {
         e.preventDefault();
         e.stopPropagation();
@@ -119,14 +112,14 @@ export default function SocietiesDashboard({ params }) {
         setIsDeleting(true);
 
         const jobId = auditToDelete.jobId || auditToDelete.id;
-        const previousPosts = [...posts]; // Save state for rollback
+        const previousPosts = [...posts];
         setPosts(prevPosts => prevPosts.filter(p => (p.jobId || p.id) !== jobId));
 
         try {
             const res = await fetch(`/api/societies/${jobId}?userId=${userIdFromParams}`, { method: "DELETE" });
             if (!res.ok) {
                 console.error("Failed to delete audit");
-                setPosts(previousPosts); // Revert on failure
+                setPosts(previousPosts);
                 toast.error("Failed to delete audit.");
             } else {
                 toast.success("Audit successfully deleted");
@@ -134,7 +127,7 @@ export default function SocietiesDashboard({ params }) {
             }
         } catch (error) {
             console.error("Error deleting audit:", error);
-            setPosts(previousPosts); // Revert on failure
+            setPosts(previousPosts);
             toast.error("Could not delete report at this time.");
         } finally {
             setIsDeleting(false);
@@ -150,7 +143,7 @@ export default function SocietiesDashboard({ params }) {
         if (!newTopic.trim()) return;
         setEditingTopicId(null);
 
-        const previousPosts = [...posts]; // Save state for rollback
+        const previousPosts = [...posts];
         setPosts(prevPosts => prevPosts.map(p =>
             (p.jobId || p.id) === jobId ? { ...p, topic: newTopic } : p
         ));
@@ -163,19 +156,18 @@ export default function SocietiesDashboard({ params }) {
             });
             if (!res.ok) {
                 console.error("Failed to update topic");
-                setPosts(previousPosts); // Revert on failure
+                setPosts(previousPosts);
                 toast.error("Failed to update title.");
             } else {
                 toast.success("Title updated.");
             }
         } catch (error) {
             console.error("Error updating topic:", error);
-            setPosts(previousPosts); // Revert on failure
+            setPosts(previousPosts);
             toast.error("An error occurred.");
         }
     };
 
-    // Upload Handlers
     const handleDragOver = (e) => {
         e.preventDefault();
         if (!isAnalyzing) setIsDragging(true);
@@ -212,7 +204,6 @@ export default function SocietiesDashboard({ params }) {
     const handleAnalyze = async (e) => {
         if (e) e.preventDefault();
 
-        // Validation
         if (activeTab === "Text" && !textContent.trim()) return;
         if ((activeTab === "Photo" || activeTab === "Video") && !file) return;
         if (isAnalyzing) return;
@@ -243,7 +234,6 @@ export default function SocietiesDashboard({ params }) {
                 setStatusMessage('Text successfully queued for audit!');
                 setTextContent("");
 
-                // Add to UI optimistically
                 setPosts([{
                     jobId,
                     postType: 'Text',
@@ -298,7 +288,6 @@ export default function SocietiesDashboard({ params }) {
                 setStatusMessage('Media successfully uploaded and queued for audit!');
                 setFile(null);
 
-                // Add to UI optimistically
                 setPosts([{
                     jobId,
                     postType: activeTab,
@@ -316,7 +305,6 @@ export default function SocietiesDashboard({ params }) {
         }
     };
 
-    // Helper for icons based on post type
     const getPostIcon = (type) => {
         switch (type) {
             case 'Text': return <FileText className="w-6 h-6 text-indigo-500" />;
@@ -329,8 +317,6 @@ export default function SocietiesDashboard({ params }) {
     return (
         <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-gray-50 font-sans relative overflow-x-hidden">
 
-
-            {/* Background Gradients - Keeping theme from analyze page */}
             <div className="fixed top-0 inset-x-0 h-[1000px] overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-0 left-0 right-0 h-[400px] opacity-40 blur-[80px]"
                     style={{ background: 'linear-gradient(to bottom, #FF9933 0%, rgba(255,153,51,0) 100%)' }}></div>
@@ -343,7 +329,6 @@ export default function SocietiesDashboard({ params }) {
             <div className="relative z-10 pt-32 px-6 pb-6 lg:pb-12 max-w-[1400px] mx-auto h-full flex flex-col">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch relative flex-1 min-h-0">
 
-                    {/* LEFT COLUMN: Analyzed Posts */}
                     <div className="lg:col-span-7 xl:col-span-7 flex flex-col min-h-0">
                         <div className="mb-10 shrink-0">
                             <h2 className="text-4xl md:text-5xl font-serif font-medium text-gray-950 mb-3 tracking-tight">
@@ -352,7 +337,6 @@ export default function SocietiesDashboard({ params }) {
 
                         </div>
 
-                        {/* Posts Grid */}
                         <div className="overflow-y-auto pr-4 pb-4 custom-scrollbar flex-1 min-h-0">
                             {isLoadingPosts ? (
                                 <div className="flex flex-col items-center justify-center p-32 h-full">
@@ -383,10 +367,8 @@ export default function SocietiesDashboard({ params }) {
                                                             exit={{ opacity: 0, scale: 0.9 }}
                                                             className="relative bg-white/40 backdrop-blur-2xl rounded-[2rem] p-5 border border-emerald-100/50 shadow-sm overflow-hidden h-full flex flex-col justify-between"
                                                         >
-                                                            {/* Shimmer Effect */}
                                                             <div className="absolute inset-0 bg-shimmer-left animate-shimmer pointer-events-none opacity-50" />
 
-                                                            {/* Top Section */}
                                                             <div className="flex justify-between items-start mb-6 relative z-10">
                                                                 <div className="w-12 h-12 rounded-2xl bg-emerald-50/50 flex items-center justify-center border border-emerald-100/30 animate-pulse">
                                                                     <Loader2 className="w-6 h-6 text-emerald-400 animate-spin" />
@@ -396,7 +378,6 @@ export default function SocietiesDashboard({ params }) {
                                                                 </div>
                                                             </div>
 
-                                                            {/* Info Area */}
                                                             <div className="space-y-4 relative z-10">
                                                                 <div>
                                                                     <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-2 flex items-center gap-1.5 line-clamp-1">
@@ -423,7 +404,6 @@ export default function SocietiesDashboard({ params }) {
                                                                 </div>
                                                             </div>
 
-                                                            {/* Bottom Section */}
                                                             <div className="flex items-center justify-between mt-8 pt-4 border-t border-emerald-50/50">
                                                                 <div className="flex items-center gap-1.5 opacity-50">
                                                                     <Clock className="w-3.5 h-3.5 text-gray-400" />
@@ -445,7 +425,6 @@ export default function SocietiesDashboard({ params }) {
                                                         transition={{ duration: 0.4, ease: "easeOut" }}
                                                         className="group relative bg-white rounded-[2rem] p-5 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition-all duration-500 overflow-hidden h-full flex flex-col justify-between"
                                                     >
-                                                        {/* Delete Button */}
                                                         <div className="absolute top-16 right-4 z-20">
                                                             <button
                                                                 onClick={(e) => handleDeleteClick(e, post)}
@@ -455,10 +434,8 @@ export default function SocietiesDashboard({ params }) {
                                                             </button>
                                                         </div>
 
-                                                        {/* Gradient Border on Hover */}
                                                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                                                        {/* Top section */}
                                                         <div className="flex justify-between items-start mb-6">
                                                             <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 overflow-hidden relative">
                                                                 {post.mediaUrl && post.postType?.toLowerCase() === 'photo' || post.postType?.toLowerCase() === 'image' ? (
@@ -474,7 +451,6 @@ export default function SocietiesDashboard({ params }) {
                                                             </div>
                                                         </div>
 
-                                                        {/* Info Area */}
                                                         <div className="space-y-4 relative z-10">
                                                             <div className="flex justify-between items-end gap-4">
                                                                 <div className="flex-1 group/title relative">
@@ -552,14 +528,10 @@ export default function SocietiesDashboard({ params }) {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: Initiate Audit */}
                     <div className="lg:col-span-5 xl:col-span-5 pb-10 lg:pb-0 font-sans mt-0 flex flex-col h-full justify-center relative z-20">
                         <div className="bg-white/40 backdrop-blur-3xl rounded-[3rem] p-8 py-10 border border-white/60 shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition-all duration-500 h-fit max-w-lg mx-auto w-full group overflow-hidden relative">
-                            {/* Inner Glass Highlights */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-transparent pointer-events-none" />
                             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-70 pointer-events-none" />
-
-                            {/* Animated Background flairs - Hover triggered */}
                             <motion.div
                                 animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                                 className="absolute -top-32 -right-32 w-80 h-80  rounded-full blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
@@ -584,7 +556,6 @@ export default function SocietiesDashboard({ params }) {
                                 <p className="text-gray-500 text-sm font-medium">Submit content to analyze how different generations react.</p>
                             </div>
 
-                            {/* Tabs Toggle */}
                             <div className="relative z-10 flex p-1.5 bg-white/20 backdrop-blur-2xl rounded-2xl mb-8 border border-white/40 w-full">
                                 {['Text', 'Photo', 'Video'].map((tab) => (
                                     <button
@@ -592,7 +563,7 @@ export default function SocietiesDashboard({ params }) {
                                         disabled={isAnalyzing}
                                         onClick={() => {
                                             setActiveTab(tab);
-                                            setFile(null); // Clear file when switching tabs
+                                            setFile(null);
                                             setStatusMessage("");
                                         }}
                                         className={`flex-1 relative flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 disabled:opacity-50 ${activeTab === tab
@@ -617,7 +588,6 @@ export default function SocietiesDashboard({ params }) {
                                 ))}
                             </div>
 
-                            {/* Forms Based on Tab */}
                             <div className="h-[280px] w-full mb-8 relative z-10 overflow-hidden">
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'Text' ? (
@@ -656,7 +626,6 @@ export default function SocietiesDashboard({ params }) {
                                                     ${isAnalyzing ? 'opacity-50 pointer-events-none' : ''}
                                                 `}
                                             >
-                                                {/* Dynamic Borders */}
                                                 {!file && (
                                                     <div className={`absolute inset-0 rounded-[2rem] border-2 border-dashed pointer-events-none transition-colors duration-500 ${isDragging ? 'border-emerald-400' : 'border-gray-200 group-hover/dropzone:border-emerald-300'}`} />
                                                 )}
@@ -698,7 +667,6 @@ export default function SocietiesDashboard({ params }) {
                                 </AnimatePresence>
                             </div>
 
-                            {/* Submit Button */}
                             <div
                                 className={`relative z-10 w-full transition-opacity duration-300 flex justify-center ${(isAnalyzing || (activeTab === 'Text' && !textContent.trim()) || ((activeTab === 'Photo' || activeTab === 'Video') && !file))
                                     ? 'opacity-50 pointer-events-none'
@@ -736,11 +704,9 @@ export default function SocietiesDashboard({ params }) {
                 </div>
             </div>
 
-            {/* Custom Glassmorphic Delete Confirmation Modal */}
             <AnimatePresence>
                 {auditToDelete && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                        {/* Dark Blurry Backdrop */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -749,14 +715,12 @@ export default function SocietiesDashboard({ params }) {
                             onClick={() => !isDeleting && setAuditToDelete(null)}
                         />
 
-                        {/* Modal Box */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             className="relative w-full max-w-sm bg-white/70 backdrop-blur-2xl rounded-[2.5rem] p-6 border border-white/80 shadow-[0_20px_60px_rgba(0,0,0,0.1),inset_0_0_20px_rgba(255,255,255,0.8)] overflow-hidden"
                         >
-                            {/* Red Glass Flare inside modal */}
                             <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-400/20 rounded-full blur-[40px] pointer-events-none" />
 
                             <div className="relative z-10 flex flex-col items-center text-center">
