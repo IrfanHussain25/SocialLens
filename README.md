@@ -1,6 +1,6 @@
 # SocialLens: AI for Content, Built for Creators
 
-![SocialLens](frontend/public/Social_lens%20_logo.png)
+![SocialLens](frontend/public/logo.jpeg)
 
 **SocialLens** is a cloud-native platform designed to empower Indian content creators through advanced multimodal AI analysis. Hosted at **[sociallensapp.com](https://sociallensapp.com)**, it decomposes short-form video content (Reels, YouTube Shorts) into its fundamental DNA—visual, audio, textual, and cultural—to provide actionable insights tailored to the diverse Indian demographic.
 
